@@ -1,6 +1,10 @@
 package v1
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"fiber/middleware"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 func Run(r *fiber.App) {
 	getRoutes(r)
@@ -8,6 +12,9 @@ func Run(r *fiber.App) {
 }
 
 func getRoutes(app *fiber.App) {
-	api := app.Group("/api/v1")
+	site := app.Group("/")
+	api := app.Group("/api/v1", middleware.VerifyToken)
 	TodosRoutes(api)
+	SiteRoutes(site)
+	AuthRoutes(api)
 }
